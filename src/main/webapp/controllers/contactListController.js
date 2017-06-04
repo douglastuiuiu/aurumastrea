@@ -1,8 +1,9 @@
 var contactListController;
 
-contactListController = function ($scope, $http) {
+contactListController = function ($scope, $http, $state, $rootScope) {
     $scope.contacts = [];
     $scope.preDeletedContact = {};
+    $scope.search = '';
 
     $scope.listAllContacts = function () {
         $http({method: 'GET', url: '/contacts'}).then(
@@ -46,6 +47,20 @@ contactListController = function ($scope, $http) {
         } else {
             return c.birthDay + "/" + c.birthMonth + "/" + c.birthYear;
         }
+    };
+
+    $scope.edit = function (contact) {
+        $rootScope.contact = contact;
+        $state.go('main.addeditcontact');
+    };
+
+    $scope.sensitiveSearch = function(contact) {
+        if ($scope.search) {
+            return contact.name == $scope.search ||
+                contact.emails[0] == $scope.search ||
+                contact.cpf == $scope.search;
+        }
+        return true;
     };
 
     $scope.listAllContacts();

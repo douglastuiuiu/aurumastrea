@@ -1,9 +1,13 @@
 var contactAddEditController;
 
-contactAddEditController = function ($scope, $http, $state) {
-    $scope.contact = {};
-    $scope.contact.emails = [''];
-    $scope.contact.phones = [''];
+contactAddEditController = function ($scope, $http, $state, $rootScope) {
+    if(!!$rootScope.contact){
+        $scope.contact = $rootScope.contact;
+    }else{
+        $scope.contact = {};
+        $scope.contact.emails = [''];
+        $scope.contact.phones = [''];
+    }
     $scope.submitted = false;
 
     $scope.save = function () {

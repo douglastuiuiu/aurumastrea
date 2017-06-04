@@ -2,23 +2,23 @@ var app = angular.module('avaliacandidatos', ['ngRoute', 'ui.router', 'ui.bootst
 
 app.config(['$urlRouterProvider', '$stateProvider',
     function ($urlRouterProvider, $stateProvider) {
-
         $stateProvider.state('main', {
             url: '/',
             templateUrl: '/view/main.html'
         });
         $stateProvider.state('main.contacts', {
             url: 'contacts',
+            controller: 'contactListController',
             templateUrl: '/view/contacts/contacts.html'
         });
         $stateProvider.state('main.addeditcontact', {
             url: 'addeditcontact',
+            controller: 'contactAddEditController',
             templateUrl: '/view/contacts/contactaddedit.html'
         });
-
         $urlRouterProvider.otherwise("/")
-
-    }]);
+    }
+]);
 
 app.directive('ngBack', function () {
     return function (scope, element, attrs) {
