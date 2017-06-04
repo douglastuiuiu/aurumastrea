@@ -4,10 +4,6 @@ contactListController = function ($scope, $http) {
     $scope.contacts = [];
     $scope.preDeletedContact = {};
 
-    $scope.init = function () {
-        $scope.listAllContacts();
-    };
-
     $scope.listAllContacts = function () {
         $http({method: 'GET', url: '/contacts'}).then(
             function success(res) {
@@ -27,7 +23,20 @@ contactListController = function ($scope, $http) {
 
     $scope.delete = function () {
         if ($scope.preDeletedContact != null) {
-            return $http({method: 'DELETE', url: '/contacts?id='+$scope.preDeletedContact.id});
+            $http({
+                method: 'DELETE',
+                url: '/contacts?id='+$scope.preDeletedContact.id
+            }).then(
+                function success(res) {
+                    $('#myModal').modal('toggle');
+                    $scope.listAllContacts();
+                },
+                function error(res) {
+                    console.log(res.message);
+                    alert(res.message);
+                }
+            );
+
         }
     };
 
@@ -38,6 +47,8 @@ contactListController = function ($scope, $http) {
             return c.birthDay + "/" + c.birthMonth + "/" + c.birthYear;
         }
     };
+
+    $scope.listAllContacts();
 };
 
 angular.module('avaliacandidatos').controller("contactListController", contactListController);

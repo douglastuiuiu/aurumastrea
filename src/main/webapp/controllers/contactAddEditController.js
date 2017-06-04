@@ -1,6 +1,6 @@
 var contactAddEditController;
 
-contactAddEditController = function ($scope, $http) {
+contactAddEditController = function ($scope, $http, $state) {
     $scope.contact = {};
     $scope.contact.emails = [''];
     $scope.contact.phones = [''];
@@ -18,17 +18,13 @@ contactAddEditController = function ($scope, $http) {
                 }
             }).then(
                 function success(res) {
-                    console.log(res);
-                    // this callback will be called asynchronously
-                    // when the response is available
+                    $state.go('main.contacts')
                 },
                 function error(res) {
-                    console.log(res);
-                    // called asynchronously if an error occurs
-                    // or server returns response with an error status.
+                    console.log(res.message);
+                    alert(res.message);
                 }
             );
-            // Chamar o servlet /contacts com um método 'POST' para salvar um contato no banco de dados.
         }
     };
 

@@ -3,8 +3,14 @@ var app = angular.module('avaliacandidatos', ['ngRoute', 'ui.router', 'ui.bootst
 app.config(['$urlRouterProvider', '$stateProvider',
     function ($urlRouterProvider, $stateProvider) {
 
-        $stateProvider.state('main', {url: '/', templateUrl: '/view/main.html'});
-        $stateProvider.state('main.contacts', {url: 'contacts', templateUrl: '/view/contacts/contacts.html'});
+        $stateProvider.state('main', {
+            url: '/',
+            templateUrl: '/view/main.html'
+        });
+        $stateProvider.state('main.contacts', {
+            url: 'contacts',
+            templateUrl: '/view/contacts/contacts.html'
+        });
         $stateProvider.state('main.addeditcontact', {
             url: 'addeditcontact',
             templateUrl: '/view/contacts/contactaddedit.html'
