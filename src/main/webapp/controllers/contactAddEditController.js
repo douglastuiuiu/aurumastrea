@@ -1,49 +1,64 @@
 var contactAddEditController;
 
-contactAddEditController = function($scope, $http) {
-	$scope.contact = {};
-	$scope.contact.emails = [''];
-	$scope.contact.phones = [''];
-	$scope.submitted = false;
-	
-	$scope.save = function() {
+contactAddEditController = function ($scope, $http) {
+    $scope.contact = {};
+    $scope.contact.emails = [''];
+    $scope.contact.phones = [''];
+    $scope.submitted = false;
 
-		$scope.submitted = true;
+    $scope.save = function () {
+        $scope.submitted = true;
+        if ($scope.contact.name != null && $scope.contact.name != "") {
+            $http({
+                method: 'POST',
+                url: '/contacts',
+                data: JSON.stringify($scope.contact),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(
+                function success(res) {
+                    console.log(res);
+                    // this callback will be called asynchronously
+                    // when the response is available
+                },
+                function error(res) {
+                    console.log(res);
+                    // called asynchronously if an error occurs
+                    // or server returns response with an error status.
+                }
+            );
+            // Chamar o servlet /contacts com um método 'POST' para salvar um contato no banco de dados.
+        }
+    };
 
-		if ($scope.contact.name != null && $scope.contact.name != "") {
+    $scope.addMorePhones = function () {
+        $scope.contact.phones.push('');
+    };
 
-			// Chamar o servlet /contacts com um método 'POST' para salvar um contato no banco de dados.
-		}
+    $scope.addMoreEmails = function () {
+        $scope.contact.emails.push('');
+    };
 
-	};
+    $scope.deletePhone = function (index) {
+        if (index > -1) {
+            $scope.contact.phones.splice(index, 1);
+        }
 
-	$scope.addMorePhones = function() {
-		$scope.contact.phones.push('');
-	}; 
+        if ($scope.contact.phones.length < 1) {
+            $scope.addMorePhones();
+        }
+    };
 
-	$scope.addMoreEmails = function() {
-		$scope.contact.emails.push('');
-	};
+    $scope.deleteEmail = function (index) {
+        if (index > -1) {
+            $scope.contact.emails.splice(index, 1);
+        }
 
-	$scope.deletePhone = function(index){
-		if (index > -1) {
-    		$scope.contact.phones.splice(index, 1);
-		}
-
-		if ($scope.contact.phones.length < 1){
-			$scope.addMorePhones();
-		}
-	};
-
-	$scope.deleteEmail = function(index){
-		if (index > -1) {
-    		$scope.contact.emails.splice(index, 1);
-		}
-
-		if ($scope.contact.emails.length < 1){
-			$scope.addMoreEmails();
-		}
-	};
+        if ($scope.contact.emails.length < 1) {
+            $scope.addMoreEmails();
+        }
+    };
 
 };
 
